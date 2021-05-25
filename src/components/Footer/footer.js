@@ -3,7 +3,7 @@ import TaskFilter from '../TasksFilter/task-filter';
 import '../Footer/footer.css';
 
 const Footer = ({todos}) => {
-    
+
     const element = todos.splice(0,3).map((item) => {
         
         const {id, ...itemProps} = item;
