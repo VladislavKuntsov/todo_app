@@ -1,17 +1,36 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDom from 'react-dom';
+import NewTaskForm from './components/NewTaskForm/new-task-form';
+import TaskList from './components/TaskList/task-list';
+import Footer from './components/Footer/footer';
+import '../src/index.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const App = () => {
+    const taskData = [
+        {label: 'Completed task', classNameLi: 'completed', id: 1},
+        {label: 'Edition task', classNameLi: 'editing', id: 2},
+        {label: 'Active task', id: 3},
+    ]
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    const footerData = [
+        {label: 'All', className: 'selected', id: 4},
+        {label: 'Active', id: 5},
+        {label: 'Complite', id: 6},
+        {label: 'Clear completed', className: 'clear-completed', id: 7},
+    ]
+
+    return (
+        <section className='todoapp'>
+            <header className='header'>
+                <h1>todos</h1>
+                <NewTaskForm />
+            </header>
+            <section className='main'>
+                <TaskList todos={taskData}/> 
+                <Footer  todos={footerData}/>    
+            </section>
+        </section>   
+    )
+};
+
+ReactDom.render(<App />, document.getElementById('root'));
