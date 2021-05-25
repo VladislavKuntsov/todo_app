@@ -1,21 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './task.css';
 
-const Task = ({label, classNameLi, id}) => {
+export default class Task extends Component {
 
-    return (
-        <li className={classNameLi} key={id}>
-            <div className='view'>
-                <input className="toggle" type="checkbox" />
-                <label>
-                    <span className='description'>{label}</span>
-                    <span className="created">created ... seconds ago</span>      
-                </label>
-                <button className="icon icon-edit"></button>
-                <button className="icon icon-destroy"></button>
-            </div>
-        </li>
-    )
+        onlabelClick = () => {
+            this.setState(({done}) => {
+                return {
+                    done: !done
+                }
+            }) 
+        };
+
+        onDestroyClick = () => {
+            console.log("Kill")
+        }
+
+        state =  {
+            done: false,
+
+        };
+
+    render() {
+        let {label, classNameLi, id} = this.props;
+        const {done} = this.state;
+
+        if(done) {
+            classNameLi = "completed";
+        }
+
+            
+        return (
+            <li className={classNameLi} key={id}>
+                <div className='view'>
+                    <input className="toggle" type="checkbox" />
+                    <label>
+                        <span className='description' 
+                        onClick = { this.onlabelClick.bind(this) }
+                        >
+                        {label}
+                        </span>
+                        <span className="created">created ... seconds ago</span>      
+                    </label>
+                    <button className="icon icon-edit"></button>
+                    <button className="icon icon-destroy" onClick = { this.onDestroyClick.bind(this) }></button>
+                </div>
+            </li>
+        )
+    }
 }
-
-export default Task;

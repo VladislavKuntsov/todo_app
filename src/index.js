@@ -7,16 +7,9 @@ import '../src/index.css';
 
 const App = () => {
     const taskData = [
-        {label: 'Completed task', classNameLi: 'completed', id: 1},
+        {label: 'Completed task', classNameLi: 'editing', id: 1},
         {label: 'Edition task', classNameLi: 'editing', id: 2},
         {label: 'Active task', id: 3},
-    ]
-
-    const footerData = [
-        {label: 'All', className: 'selected', id: 4},
-        {label: 'Active', id: 5},
-        {label: 'Complite', id: 6},
-        {label: 'Clear completed', className: 'clear-completed', id: 7},
     ]
 
     return (
@@ -27,7 +20,7 @@ const App = () => {
             </header>
             <section className='main'>
                 <TaskList todos={taskData}/> 
-                <Footer  todos={footerData}/>    
+                <Footer />    
             </section>
         </section>   
     )
