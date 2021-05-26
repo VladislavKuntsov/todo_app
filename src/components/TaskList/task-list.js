@@ -2,12 +2,14 @@ import React from 'react';
 import Task from '../Task/task';
 import './task-list.css';
 
-const TaskList = ({todos}) => {
+const TaskList = ({todos, onDeleted}) => {
 
     const element = todos.map((item) => {
         
         return (
-            <Task {...item} />
+            <Task 
+            {...item} 
+            onDeleted = {()=> onDeleted(item.id)}/>
         )
     })
 

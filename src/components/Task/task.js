@@ -11,17 +11,13 @@ export default class Task extends Component {
             }) 
         };
 
-        onDestroyClick = () => {
-            console.log("Kill")
-        }
-
         state =  {
             done: false,
 
         };
 
     render() {
-        let {label, classNameLi, id} = this.props;
+        let {label, classNameLi, id, onDeleted} = this.props;
         const {done} = this.state;
 
         if(done) {
@@ -42,7 +38,8 @@ export default class Task extends Component {
                         <span className="created">created ... seconds ago</span>      
                     </label>
                     <button className="icon icon-edit"></button>
-                    <button className="icon icon-destroy" onClick = { this.onDestroyClick.bind(this) }></button>
+                    <button className="icon icon-destroy" 
+                    onClick = {onDeleted}></button>
                 </div>
             </li>
         )
