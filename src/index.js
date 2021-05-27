@@ -6,16 +6,32 @@ import Footer from './components/Footer/footer';
 import '../src/index.css';
 
 export default class App extends Component {
+    
+    maxId = 1;
 
     state = {
         taskData: [
-        {label: 'Completed task', classNameLi: 'editing', id: 1},
-        {label: 'Edition task', classNameLi: 'editing', id: 2},
-        {label: 'Active task', id: 3},
-        ]   
+            this.createTask('Позавтракать'),
+            this.createTask('Сделать что-нибудь'),
+            this.createTask('Пообедать'),
+            this.createTask('Сделать что-нибудь'),
+            this.createTask('Поужинать'),
+            this.createTask('Вечерняя прогулка'),
+            this.createTask('Сделать что-нибудь'),
+        ],
+        term: '',
+        filter: 'all',
     }
-    
-    
+
+    createTask(label) {
+        return {
+                label,
+                classNameLi: '',
+                done: false, //состояние выполнения 
+                id: this.maxId++,
+            }
+        
+    }
 
     deleteItem = (id) => {
         this.setState( ({taskData}) => {
@@ -29,21 +45,102 @@ export default class App extends Component {
         }) 
     }   
 
+    onNotDoneItem = (id) => {
+        this.setState(({taskData}) => {
+            const idx = taskData.findIndex((el)=> el.id === id)
+            const oldTask = taskData[idx]
+            
+            const newTask = {...oldTask,
+            done: !oldTask.done}
+
+             if(newTask.done) {
+                newTask.classNameLi = "completed";
+            } else newTask.classNameLi = ""
+
+            const newArray = [...taskData.slice(0, idx), newTask, ...taskData.slice(idx + 1)]
+
+            return {
+                taskData: newArray
+            }
+        })
+    }
+
+    clearCompleted = () => {
+
+        this.setState(({taskData}) => {
+            const newArray = taskData.filter((element) => !element.done); 
+
+            return {
+                taskData: newArray
+            }
+        })  
+    } 
+
+    search(items, term) {
+        if (term.length === 0) return items;
+           
+            return items.filter((item) => {
+                return item.label
+                    .toLowerCase()
+                    .indexOf(term.toLowerCase()) > -1;
+            })  
+    }
+
+    filter (items, filter) { //незавершенные задачи
+        switch(filter) {
+            case 'all':
+                return items;
+            case 'active':
+                return items.filter((item) => !item.done);
+            case 'completed':
+                return items.filter((item) => item.done);
+            default:
+                return items;
+        }
+    }
+
+    onFilterChange = (filter) => {
+        this.setState({filter})
+    }
+
+    onTaskAdd = (text) => {
+        const newTask = this.createTask(text);
+
+        this.setState(({taskData}) => {
+            const newArray = [...taskData, newTask]
+
+            return {
+                taskData: newArray
+            } 
+        })
+    }
+
     render () {
+        const doneCount = this.state.taskData.filter((el) => !el.done).length;  //счетчик незавершенных задач
+        
+        const {taskData, term, filter} = this.state;
+
+        const visibleItems = this.filter(this.search(taskData, term), filter);
 
         return (
             <section className='todoapp'>
                 <header className='header'>
                     <h1>todos</h1>
-                    <NewTaskForm />
+                    <NewTaskForm 
+                    onTaskAdd={this.onTaskAdd}
+                    />
                 </header>
                 <section className='main'>
                     <TaskList 
-                    todos = {this.state.taskData}
-                    onDeleted = { this.deleteItem}
+                    todos = { visibleItems }
+                    onDeleted = { this.deleteItem }
+                    onNotDone = { this.onNotDoneItem }
                     /> 
                     <Footer 
-                    deleteCompleted = {this.deleteCompletedTasks}
+                    todos = {doneCount}
+                    clearCompleted = {this.clearCompleted}
+                    filter = {this.state.filter}           /////////////
+                    onFilterChange = {this.onFilterChange}    ///////////////
                     />    
                 </section>
             </section>   
