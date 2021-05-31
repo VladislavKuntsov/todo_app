@@ -3,7 +3,7 @@ import Task from '../Task/task';
 import './task-list.css';
 
 const TaskList = (props) => {
-    
+
     const {todos, onDeleted, onNotDone} = props
     
     TaskList.defaultProps = {  //дефолтные пропсы
@@ -12,9 +12,8 @@ const TaskList = (props) => {
     }
 
     const element = todos.map((item) => {
-        
         return (
-            <Task 
+            <Task key={item.id}
             {...item} 
             onDeleted = {() => onDeleted(item.id)}
             onNotDone = {() => onNotDone(item.id)}/>
