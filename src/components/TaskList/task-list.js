@@ -2,7 +2,14 @@ import React from 'react';
 import Task from '../Task/task';
 import './task-list.css';
 
-const TaskList = ({todos, onDeleted, onNotDone}) => {
+const TaskList = (props) => {
+    
+    const {todos, onDeleted, onNotDone} = props
+    
+    TaskList.defaultProps = {  //дефолтные пропсы
+        onDeleted : () => {},
+        onNotDone: () => {},
+    }
 
     const element = todos.map((item) => {
         
@@ -15,7 +22,7 @@ const TaskList = ({todos, onDeleted, onNotDone}) => {
     })
 
     return (
-        <ul className='todo-list'>
+        <ul className='todo-list' >
             {element}
         </ul>
     )

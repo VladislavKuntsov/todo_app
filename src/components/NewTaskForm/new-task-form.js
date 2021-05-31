@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import './new-task-form.css';
 
 export default class NewTaskForm extends Component {
-   
+
+    static defaultProps = { //дефолтные пропсы
+        onLabelChange: () => {},
+        onSubmit: () => {}
+    } 
+
     state = {
         label: '',
     }
@@ -13,11 +18,9 @@ export default class NewTaskForm extends Component {
     
     onSubmit = (event) => {
         event.preventDefault(); //браузер не будет перезагружать страницу
-            if(!this.state.label == '') {
-                this.props.onTaskAdd(this.state.label)     
-            }
-            event.target.reset()
-            this.setState({label: ""});
+        this.props.onTaskAdd(this.state.label)       
+        event.target.reset() 
+        this.setState({label: ""});
     }
 
     render() {

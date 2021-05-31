@@ -7,34 +7,31 @@ import '../src/index.css';
 
 export default class App extends Component {
     
-    maxId = 1;
+    maxId = 100;
 
     state = {
         taskData: [
-            this.createTask('Позавтракать'),
-            this.createTask('Сделать что-нибудь'),
-            this.createTask('Пообедать'),
-            this.createTask('Сделать что-нибудь'),
-            this.createTask('Поужинать'),
-            this.createTask('Вечерняя прогулка'),
-            this.createTask('Сделать что-нибудь'),
+            this.createTask('Morning exercises '),
+            this.createTask('To Drink coffee'),
+            this.createTask('Make the bed '),
+            this.createTask('Meet a friend '),
         ],
         term: '',
         filter: 'all',
     }
-
+    
     createTask(label) {
         return {
-                label,
-                classNameLi: '',
-                done: false, //состояние выполнения 
-                id: this.maxId++,
-            }
-        
+            label,
+            classNameLi: '',
+            done: false, //состояние выполнения задачи
+            id: this.maxId++,
+            сreationTime:  new Date(),
+        } 
     }
 
     deleteItem = (id) => {
-        this.setState( ({taskData}) => {
+        this.setState(( {taskData} ) => {
 
             const idx = taskData.findIndex((el)=> el.id === id)
             const newArray = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)]
@@ -117,7 +114,7 @@ export default class App extends Component {
 
     render () {
         const doneCount = this.state.taskData.filter((el) => !el.done).length;  //счетчик незавершенных задач
-        
+
         const {taskData, term, filter} = this.state;
 
         const visibleItems = this.filter(this.search(taskData, term), filter);
@@ -137,7 +134,7 @@ export default class App extends Component {
                     onNotDone = { this.onNotDoneItem }
                     /> 
                     <Footer 
-                    todos = {doneCount}
+                    doneCount= {doneCount}
                     clearCompleted = {this.clearCompleted}
                     filter = {this.state.filter}           /////////////
                     onFilterChange = {this.onFilterChange}    ///////////////
