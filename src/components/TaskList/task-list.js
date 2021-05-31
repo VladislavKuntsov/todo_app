@@ -12,11 +12,14 @@ const TaskList = (props) => {
     }
 
     const element = todos.map((item) => {
+
+    const {id, ...items} = item
+
         return (
-            <Task key={item.id}
-            {...item} 
-            onDeleted = {() => onDeleted(item.id)}
-            onNotDone = {() => onNotDone(item.id)}/>
+            <Task key={id}
+            { ...items } 
+            onDeleted = {() => onDeleted(id)}
+            onNotDone = {() => onNotDone(id)}/>
         )
     })
 

@@ -13,25 +13,25 @@ export default class NewTaskForm extends Component {
     }
 
     onLabelChange = (event) => {
-        this.setState({label: event.target.value});
+        this.setState( {label: event.target.value} );
     }
     
     onSubmit = (event) => {
         event.preventDefault(); //браузер не будет перезагружать страницу
         this.props.onTaskAdd(this.state.label)       
         event.target.reset() 
-        this.setState({label: ""});
+        this.setState( {label: ""} );
     }
 
     render() {
         return (
             <form
-                onSubmit={this.onSubmit}>
+                onSubmit={ this.onSubmit }>
                 <input className="new-todo"
                     type='text' 
                     placeholder='What needs to be done?' 
-                    autoFocus={true} 
-                    onChange={this.onLabelChange}
+                    autoFocus={ true } 
+                    onChange={ this.onLabelChange }
                 />
             </form>
               

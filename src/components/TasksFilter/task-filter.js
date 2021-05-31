@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 export default class  TaskFilter extends Component {
 
     buttons = [
@@ -29,7 +28,7 @@ export default class  TaskFilter extends Component {
         
         return  (
             <ul className="filters">
-                {buttons}
+                { buttons }
             </ul>
         ) 
     }
