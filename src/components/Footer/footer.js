@@ -1,44 +1,34 @@
 import React from 'react';
-//import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import TaskFilter from '../TasksFilter/task-filter';
-import '../Footer/footer.css';
+import './footer.css';
 
 const Footer = (props) => {
-   let {doneCount, clearCompleted, filter, onFilterChange} = props
-   // doneCount = "Я не число";
+  const { doneCount, clearCompleted, filter, onFilterChange } = props;
 
+  Footer.defaultProps = {
+    // дефолтные пропсы
+    clearCompleted: () => {},
+    onFilterChange: () => {},
+  };
 
-    Footer.defaultProps = { //дефолтные пропсы
-        clearCompleted: () => {},
-        onFilterChange: () => {},
-    }
+  Footer.propTypes = {
+    // проверяем является ли doneCount числом, но чет ему совсем пох)
+    clearCompleted: PropTypes.func,
+    onFilterChange: PropTypes.func,
+    doneCount: PropTypes.number.isRequired,
+    filter: PropTypes.string.isRequired,
+  };
 
-    Footer.propTypes = {  //проверяем является ли doneCount числом, но чет ему совсем пох)
-        doneCount: (props, propName, componentName) => { 
-            const value = props[propName];
-
-            if(typeof value === 'number' && !isNaN(value)) {
-                return null;    
-            }
-
-            return new TypeError (`${componentName}: ${propName} must be number`);
-        },
-    }
-
-    return (
-        
-        <footer className="footer">
-            <span className="todo-count">{ doneCount } items left</span>
-            <TaskFilter 
-            filter = { filter } 
-            onFilterChange = { onFilterChange}
-            />
-            <button 
-            className="clear-completed"
-            onClick = { clearCompleted }>
-            Clear completed</button>
-        </footer> 
-    )
-}
+  return (
+    <footer className="footer">
+      <span className="todo-count">{doneCount} items left</span>
+      <TaskFilter filter={filter} onFilterChange={onFilterChange} />
+      <button type="button" className="clear-completed" onClick={clearCompleted}>
+        Clear completed
+      </button>
+    </footer>
+  );
+};
 
 export default Footer;

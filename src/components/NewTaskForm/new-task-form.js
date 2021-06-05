@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './new-task-form.css';
 
 export default class NewTaskForm extends Component {
+  state = {
+    label: '',
+  };
 
-    static defaultProps = { //дефолтные пропсы
-        onLabelChange: () => {},
-        onSubmit: () => {}
-    } 
+  static defaultProps = {
+    onTaskAdd: () => {},
+  };
 
-    state = {
-        label: '',
-    }
+  static propTypes = {
+    onTaskAdd: PropTypes.func,
+  };
 
-    onLabelChange = (event) => {
-        this.setState( {label: event.target.value} );
-    }
-    
-    onSubmit = (event) => {
-        event.preventDefault(); //браузер не будет перезагружать страницу
-        this.props.onTaskAdd(this.state.label)       
-        event.target.reset() 
-        this.setState( {label: ""} );
-    }
+  onLabelChange = (event) => {
+    this.setState({ label: event.target.value });
+  };
 
-    render() {
-        return (
-            <form
-                onSubmit={ this.onSubmit }>
-                <input className="new-todo"
-                    type='text' 
-                    placeholder='What needs to be done?' 
-                    autoFocus={ true } 
-                    onChange={ this.onLabelChange }
-                />
-            </form>
-              
-        )
-    }
+  onSubmit = (event) => {
+    const { label } = this.state;
+    const { onTaskAdd } = this.props;
+
+    event.preventDefault(); // браузер не будет перезагружать страницу
+    onTaskAdd(label);
+    event.target.reset();
+    this.setState({ label: '' });
+  };
+
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input className="new-todo" type="text" placeholder="What needs to be done?" onChange={this.onLabelChange} />
+      </form>
+    );
+  }
 }
-
