@@ -6,6 +6,8 @@ import './footer.css';
 const Footer = (props) => {
   const { doneCount, clearCompleted, filter, onFilterChange } = props;
 
+  const itemsLeft = ' items left';
+
   Footer.defaultProps = {
     clearCompleted: () => {},
     onFilterChange: () => {},
@@ -22,7 +24,7 @@ const Footer = (props) => {
     <footer className="footer">
       <span className="todo-count">
         {doneCount}
-        items left
+        {itemsLeft}
       </span>
       <TaskFilter filter={filter} onFilterChange={onFilterChange} />
       <button type="button" className="clear-completed" onClick={clearCompleted}>

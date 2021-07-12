@@ -7,8 +7,9 @@ export default class Task extends Component {
   state = {
     pastTime: null,
     timeSec: null,
-    timerId: null,
+    /* timerId: null, */
     id: null,
+    playPause: false,
   };
 
   static defaultProps = {
@@ -31,6 +32,8 @@ export default class Task extends Component {
   };
 
   componentDidMount() {
+    /* монтирование */
+
     const { timeSec, id, pastTime } = this.props;
 
     this.setState({
@@ -40,9 +43,28 @@ export default class Task extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    /* обновление состояния */
+    const { playPause } = this.state;
+
+    if (playPause === true) {
+      console.log(prevState.playPause !== playPause);
+      clearInterval(this.timerId);
+      this.timerId = setInterval(this.tick, 1000);
+    }
+
+    if (playPause === false) {
+      clearInterval(this.timerId);
+    }
+  }
+
   componentWillUnmount() {
+    /* размонтирование */
+
     const { setTime } = this.props;
     const { timeSec, id, pastTime } = this.state;
+
+    clearInterval(this.timerId);
     setTime(timeSec, id, pastTime);
   }
 
@@ -50,24 +72,17 @@ export default class Task extends Component {
     const { timeSec } = this.state;
     const { done } = this.props;
 
-    if (done) this.pauseTime();
-
-    this.setState({ timeSec: timeSec - 1 });
+    if (timeSec === 0 || done === true) {
+      this.pauseTime();
+    } else this.setState({ timeSec: timeSec - 1 });
   };
 
   playTime = () => {
-    const { done } = this.props;
-
-    if (done) this.pauseTime();
-
-    const timerId = setInterval(this.tick, 1000);
-    this.setState({ timerId });
+    this.setState({ playPause: true });
   };
 
   pauseTime = () => {
-    const { timerId } = this.state;
-
-    clearInterval(timerId);
+    this.setState({ playPause: false });
   };
 
   pastTimeTask = (сreationTime) => {
@@ -88,7 +103,7 @@ export default class Task extends Component {
     }, 60000);
 
     const hours = Math.floor(timeSec / 60);
-    const minutes = timeSec % 60;
+    const minutes = timeSec % 60 < 10 ? `0${timeSec % 60}` : timeSec % 60;
 
     return (
       <li className={classNameLi}>
@@ -98,7 +113,7 @@ export default class Task extends Component {
             <span aria-hidden="true" className="description" onClick={onNotDone}>
               {label}
             </span>
-            <span>
+            <span className="timer">
               <button type="button" onClick={this.playTime} className="icon icon-play" aria-label="play" />
               <button type="button" onClick={this.pauseTime} className="icon icon-pause" aria-label="pause" />
               {hours}:{minutes}

@@ -54,8 +54,24 @@ export default class NewTaskForm extends Component {
           placeholder="What needs to be done?"
           onChange={this.onLabelChange}
         />
-        <input className="time-min" type="number" maxLength="2" required placeholder="Min" onChange={this.onTimeMin} />
-        <input className="time-sec" type="number" maxLength="2" required placeholder="Sec" onChange={this.onTimeSec} />
+        <input
+          className="time-min"
+          type="number"
+          min="0"
+          maxLength="2"
+          required
+          placeholder="Min"
+          onChange={this.onTimeMin}
+        />
+        <input
+          className="time-sec"
+          type="number"
+          min="0"
+          maxLength="2"
+          required
+          placeholder="Sec"
+          onChange={this.onTimeSec}
+        />
         <button type="submit" aria-label="submit" />
       </form>
     );

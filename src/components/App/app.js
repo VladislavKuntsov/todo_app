@@ -105,7 +105,7 @@ export default class App extends Component {
       id: uuidv4(),
       сreationTime: new Date(),
       timeSec,
-      pastTime: ' less than a minute ago',
+      pastTime: ' 1 minute ago',
     };
   }
 
