@@ -50,7 +50,7 @@ export default class Task extends Component {
 
     if (playPause === true) {
       clearInterval(this.timerId);
-      this.timerId = setInterval(this.tick, 10);
+      this.timerId = setInterval(this.tick, 1000);
     }
 
     if (playPause === false) {
