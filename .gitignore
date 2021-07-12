@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/DIR --global-config=DIR
+/DIR
 /.pnp
 .pnp.js
 

@@ -246,7 +246,7 @@ body {
   width: 150px;
   height: auto;
   flex-wrap: wrap;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .label .timer {
@@ -340,7 +340,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
-  height: 36px; 
+  height: 36px;
   text-align: center;
   font-size: 15px;
   border-top: 1px solid #e6e6e6;
