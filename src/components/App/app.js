@@ -8,17 +8,37 @@ import './app.css';
 export default class App extends Component {
   state = {
     taskData: [
-      this.createTask('Morning exercises '),
-      this.createTask('To Drink coffee'),
-      this.createTask('Make the bed '),
-      this.createTask('Meet a friend '),
+      this.createTask('Morning exercises', 1200),
+      this.createTask('To Drink coffee', 1200),
+      this.createTask('Make the bed', 1200),
+      this.createTask('Meet a friend', 1200),
     ],
     term: '',
     filter: 'all',
   };
 
-  onTaskAdd = (text) => {
-    const newTask = this.createTask(text);
+  setTime = (time, id) => {
+    this.setState(({ taskData }) => {
+      const newArr = taskData.map((item) => {
+        if (item.id === id) {
+          const newObj = item;
+          newObj.timeSec = time;
+
+          return newObj;
+        }
+        return item;
+      });
+
+      return {
+        taskData: newArr,
+      };
+    });
+  };
+
+  onTaskAdd = (text, min, sec) => {
+    const timeSec = 60 * min + sec;
+
+    const newTask = this.createTask(text, timeSec);
 
     this.setState(({ taskData }) => {
       const newArray = [...taskData, newTask];
@@ -76,13 +96,14 @@ export default class App extends Component {
     });
   };
 
-  createTask(label) {
+  createTask(label, timeSec) {
     return {
       label,
       classNameLi: '',
       done: false,
       id: uuidv4(),
       сreationTime: new Date(),
+      timeSec,
     };
   }
 
@@ -93,7 +114,6 @@ export default class App extends Component {
   }
 
   filter(items, filter) {
-    // незавершенные задачи
     switch (filter) {
       case 'all':
         return items;
@@ -110,7 +130,6 @@ export default class App extends Component {
     const { taskData, term, filter } = this.state;
 
     const doneCount = taskData.filter((el) => !el.done).length;
-
     const visibleItems = this.filter(this.search(taskData, term), filter);
 
     return (
@@ -120,7 +139,13 @@ export default class App extends Component {
           <NewTaskForm onTaskAdd={this.onTaskAdd} />
         </header>
         <section className="main">
-          <TaskList todos={visibleItems} onDeleted={this.deleteItem} onNotDone={this.onNotDoneItem} />
+          <TaskList
+            todos={visibleItems}
+            taskData={taskData}
+            onDeleted={this.deleteItem}
+            onNotDone={this.onNotDoneItem}
+            setTime={this.setTime}
+          />
           <Footer
             doneCount={doneCount}
             clearCompleted={this.clearCompleted}

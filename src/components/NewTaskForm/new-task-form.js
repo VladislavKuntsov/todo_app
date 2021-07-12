@@ -5,6 +5,8 @@ import './new-task-form.css';
 export default class NewTaskForm extends Component {
   state = {
     label: '',
+    min: null,
+    sec: null,
   };
 
   static defaultProps = {
@@ -19,20 +21,42 @@ export default class NewTaskForm extends Component {
     this.setState({ label: event.target.value });
   };
 
+  onTimeMin = (event) => {
+    this.setState({ min: Number(event.target.value) });
+  };
+
+  onTimeSec = (event) => {
+    this.setState({ sec: Number(event.target.value) });
+  };
+
   onSubmit = (event) => {
-    const { label } = this.state;
+    const { label, min, sec } = this.state;
     const { onTaskAdd } = this.props;
 
     event.preventDefault(); // браузер не будет перезагружать страницу
-    onTaskAdd(label);
+    onTaskAdd(label, min, sec);
     event.target.reset();
-    this.setState({ label: '' });
+
+    this.setState({
+      label: '',
+      min: null,
+      sec: null,
+    });
   };
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <input className="new-todo" type="text" placeholder="What needs to be done?" onChange={this.onLabelChange} />
+      <form onSubmit={this.onSubmit} className="form">
+        <input
+          className="new-todo"
+          type="text"
+          required
+          placeholder="What needs to be done?"
+          onChange={this.onLabelChange}
+        />
+        <input className="time-min" type="number" maxLength="2" required placeholder="Min" onChange={this.onTimeMin} />
+        <input className="time-sec" type="number" maxLength="2" required placeholder="Sec" onChange={this.onTimeSec} />
+        <button type="submit" aria-label="submit" />
       </form>
     );
   }
