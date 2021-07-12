@@ -43,12 +43,11 @@ export default class Task extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     /* обновление состояния */
     const { playPause } = this.state;
 
     if (playPause === true) {
-      console.log(prevState.playPause !== playPause);
       clearInterval(this.timerId);
       this.timerId = setInterval(this.tick, 1000);
     }
