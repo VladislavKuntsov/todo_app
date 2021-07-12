@@ -5,7 +5,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 export default class Task extends Component {
   state = {
-    pastTime: ' less than a minute ago',
+    pastTime: null,
     timeSec: null,
     timerId: null,
     id: null,
@@ -27,21 +27,23 @@ export default class Task extends Component {
     сreationTime: PropTypes.objectOf(PropTypes.object).isRequired,
     id: PropTypes.string.isRequired,
     timeSec: PropTypes.number.isRequired,
+    pastTime: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
-    const { timeSec, id } = this.props;
+    const { timeSec, id, pastTime } = this.props;
 
     this.setState({
       timeSec,
       id,
+      pastTime,
     });
   }
 
   componentWillUnmount() {
     const { setTime } = this.props;
-    const { timeSec, id } = this.state;
-    setTime(timeSec, id);
+    const { timeSec, id, pastTime } = this.state;
+    setTime(timeSec, id, pastTime);
   }
 
   tick = () => {

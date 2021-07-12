@@ -1,16 +1,17 @@
 .form {
-    display: flex;
+  display: flex;
 }
 
 .new-todo {
-    flex: 1 1;
-    width: 100%;
+  flex: 1 1;
+  width: 100%;
 }
 
-.time-min, .time-sec {
-    font-size: 24px;
-    padding: 16px 10px 16px 10px;
-    width: 15%;
-    text-align: center;
-    border: none;
+.time-min,
+.time-sec {
+  font-size: 24px;
+  padding: 16px 10px 16px 10px;
+  width: 15%;
+  text-align: center;
+  border: none;
 }

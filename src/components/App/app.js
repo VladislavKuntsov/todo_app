@@ -17,12 +17,13 @@ export default class App extends Component {
     filter: 'all',
   };
 
-  setTime = (time, id) => {
+  setTime = (time, id, pastTime) => {
     this.setState(({ taskData }) => {
       const newArr = taskData.map((item) => {
         if (item.id === id) {
           const newObj = item;
           newObj.timeSec = time;
+          newObj.pastTime = pastTime;
 
           return newObj;
         }
@@ -104,6 +105,7 @@ export default class App extends Component {
       id: uuidv4(),
       сreationTime: new Date(),
       timeSec,
+      pastTime: ' less than a minute ago',
     };
   }
 
