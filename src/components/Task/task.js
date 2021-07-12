@@ -33,7 +33,6 @@ export default class Task extends Component {
 
   componentDidMount() {
     /* монтирование */
-
     const { timeSec, id, pastTime } = this.props;
 
     this.setState({
@@ -41,6 +40,8 @@ export default class Task extends Component {
       id,
       pastTime,
     });
+
+    this.intervalID = setInterval(this.pastTimeTask, 300000);
   }
 
   componentDidUpdate() {
@@ -49,7 +50,7 @@ export default class Task extends Component {
 
     if (playPause === true) {
       clearInterval(this.timerId);
-      this.timerId = setInterval(this.tick, 1000);
+      this.timerId = setInterval(this.tick, 10);
     }
 
     if (playPause === false) {
@@ -64,6 +65,7 @@ export default class Task extends Component {
     const { timeSec, id, pastTime } = this.state;
 
     clearInterval(this.timerId);
+    clearInterval(this.intervalID);
     setTime(timeSec, id, pastTime);
   }
 
@@ -84,22 +86,14 @@ export default class Task extends Component {
     this.setState({ playPause: false });
   };
 
-  pastTimeTask = (сreationTime) => {
+  pastTimeTask = () => {
+    const { сreationTime } = this.props;
     this.setState({ pastTime: ` ${formatDistanceToNow(сreationTime, { addSuffix: true })}` });
   };
 
-  clearintervalID = () => {
-    clearInterval(this.intervalID);
-  };
-
   render() {
-    const { label, сreationTime, classNameLi, done, onDeleted, onNotDone } = this.props;
+    const { label, classNameLi, done, onDeleted, onNotDone } = this.props;
     const { pastTime, timeSec } = this.state;
-
-    this.intervalID = setInterval(() => {
-      this.pastTimeTask(сreationTime);
-      return this.clearintervalID();
-    }, 60000);
 
     const hours = Math.floor(timeSec / 60);
     const minutes = timeSec % 60 < 10 ? `0${timeSec % 60}` : timeSec % 60;
