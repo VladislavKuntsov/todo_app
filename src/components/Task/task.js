@@ -7,7 +7,6 @@ export default class Task extends Component {
   state = {
     pastTime: null,
     timeSec: null,
-    /* timerId: null, */
     id: null,
     playPause: false,
   };
@@ -60,7 +59,6 @@ export default class Task extends Component {
 
   componentWillUnmount() {
     /* размонтирование */
-
     const { setTime } = this.props;
     const { timeSec, id, pastTime } = this.state;
 
@@ -97,6 +95,7 @@ export default class Task extends Component {
 
     const hours = Math.floor(timeSec / 60);
     const minutes = timeSec % 60 < 10 ? `0${timeSec % 60}` : timeSec % 60;
+    const timeExecutionTask = `${hours}:${minutes}`;
 
     return (
       <li className={classNameLi}>
@@ -109,7 +108,7 @@ export default class Task extends Component {
             <span className="timer">
               <button type="button" onClick={this.playTime} className="icon icon-play" aria-label="play" />
               <button type="button" onClick={this.pauseTime} className="icon icon-pause" aria-label="pause" />
-              {hours}:{minutes}
+              {timeExecutionTask}
             </span>
             <span className="created">
               created

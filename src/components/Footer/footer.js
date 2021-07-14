@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import TaskFilter from '../TasksFilter/task-filter';
 import './footer.css';
 
-const Footer = (props) => {
-  const { doneCount, clearCompleted, filter, onFilterChange } = props;
-
+const Footer = ({ doneCount, clearCompleted, filter, onFilterChange }) => {
   const itemsLeft = ' items left';
 
   Footer.defaultProps = {

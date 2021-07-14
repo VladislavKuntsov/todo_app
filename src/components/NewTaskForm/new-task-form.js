@@ -1,79 +1,50 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './new-task-form.css';
 
-export default class NewTaskForm extends Component {
-  state = {
-    label: '',
-    min: null,
-    sec: null,
+function NewTaskForm({ onTaskAdd }) {
+  const [label, setLabel] = useState(null);
+  const [min, setMin] = useState(null);
+  const [sec, setSec] = useState(null);
+
+  const onLabelChange = (event) => {
+    setLabel(event.target.value);
   };
 
-  static defaultProps = {
-    onTaskAdd: () => {},
+  const onTimeMin = (event) => {
+    setMin(Number(event.target.value));
   };
 
-  static propTypes = {
-    onTaskAdd: PropTypes.func,
+  const onTimeSec = (event) => {
+    setSec(Number(event.target.value));
   };
 
-  onLabelChange = (event) => {
-    this.setState({ label: event.target.value });
-  };
-
-  onTimeMin = (event) => {
-    this.setState({ min: Number(event.target.value) });
-  };
-
-  onTimeSec = (event) => {
-    this.setState({ sec: Number(event.target.value) });
-  };
-
-  onSubmit = (event) => {
-    const { label, min, sec } = this.state;
-    const { onTaskAdd } = this.props;
-
-    event.preventDefault(); // браузер не будет перезагружать страницу
+  const onSubmit = (event) => {
+    event.preventDefault();
     onTaskAdd(label, min, sec);
     event.target.reset();
 
-    this.setState({
-      label: '',
-      min: null,
-      sec: null,
-    });
+    setLabel(null);
+    setMin(null);
+    setSec(null);
   };
 
-  render() {
-    return (
-      <form onSubmit={this.onSubmit} className="form">
-        <input
-          className="new-todo"
-          type="text"
-          required
-          placeholder="What needs to be done?"
-          onChange={this.onLabelChange}
-        />
-        <input
-          className="time-min"
-          type="number"
-          min="0"
-          maxLength="2"
-          required
-          placeholder="Min"
-          onChange={this.onTimeMin}
-        />
-        <input
-          className="time-sec"
-          type="number"
-          min="0"
-          maxLength="2"
-          required
-          placeholder="Sec"
-          onChange={this.onTimeSec}
-        />
-        <button type="submit" aria-label="submit" />
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={onSubmit} className="form">
+      <input className="new-todo" type="text" required placeholder="What needs to be done?" onChange={onLabelChange} />
+      <input className="time-min" type="number" min="0" maxLength="2" required placeholder="Min" onChange={onTimeMin} />
+      <input className="time-sec" type="number" min="0" maxLength="2" required placeholder="Sec" onChange={onTimeSec} />
+      <button type="submit" aria-label="submit" />
+    </form>
+  );
 }
+
+NewTaskForm.defaultProps = {
+  onTaskAdd: () => {},
+};
+
+NewTaskForm.propTypes = {
+  onTaskAdd: PropTypes.func,
+};
+
+export default NewTaskForm;
