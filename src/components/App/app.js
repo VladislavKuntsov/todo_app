@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import NewTaskForm from '../NewTaskForm/new-task-form';
 import TaskList from '../TaskList/task-list';
@@ -26,6 +26,8 @@ function App() {
   ]);
   const [filter, setFilter] = useState('all');
   const term = '';
+
+  useEffect(() => setTaskData(taskData), [taskData]);
 
   const setTime = (time, id, pastTime) => {
     const newArr = taskData.map((item) => {
@@ -103,11 +105,9 @@ function App() {
     }
   };
 
-  /* const doneCount = taskData.filter(item => !item.done); */
-  const doneCount = 4;
-
+  const doneCount = taskData.filter((item) => !item.done).length;
   const visibleItems = filterTask(search(taskData, term), filter);
-  console.log(visibleItems);
+
   return (
     <section className="todoapp">
       <header className="header">
